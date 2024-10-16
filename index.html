@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    <title>Quizz Lei-8080</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background-color: orange;
+        }
+
+        .front {
+            height: 700px;
+        }
+
+        #startScreen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+
+        .play-button {
+            padding: 15px 30px;
+            font-size: 24px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .play-button:hover {
+            background-color: #45a049;
+        }
+
+        .game {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid palevioletred;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            width: 100%;
+            max-width: 100px;
+        }
+
+        .game:hover {
+            transform: scale(1.05);
+        }
+
+        #gameContent {
+            margin-top: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .question {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .answer {
+            display: block;
+            padding: 10px;
+            margin: 5px;
+            border: 2px solid palevioletred;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .correct {
+            background-color: lightgreen;
+        }
+        .incorrect {
+            background-color: lightcoral;
+        }
+        .next-button, .back-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 200px;
+            background-color: #4CAF50;
+            color: white;
+        }
+        .next-button:hover, .back-button:hover {
+            background-color: #45a049;
+        }
+        .back-button {
+            background-color: #007BFF;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+        .games {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            
+        }
+
+        .texto {
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+        }
+        @media (max-width: 600px) {
+            .game {
+                margin: 10px;
+                padding: 15px;
+                font-size: 18px;
+            }
+            .next-button, .back-button {
+                font-size: 16px;
+            }
+            .question {
+                font-size: 18px;
+            }
+
+            img {
+                width: 150px;
+                height: 150px;
+                padding: 0px;
+            }
+
+           h2 {
+            font-size: 20px;
+           } 
+
+           body {
+            padding: 5px;
+           }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Tela Inicial -->
+    <div class="front" id="startScreen">
+        <h1>Quizz - Novo Testamento</h1>
+            <br>
+        <img src="leao_img.png" width="300px" height="300px" alt="">
+
+        <button class="play-button" onclick="startGame()">PLAY</button>
+     </div>
+    
+    
+   
+    <div class="games" id="gamesMenu" style="display:none;">
+      <div class="texto">  
+        <h2>Bem-vindo ao Quizz <br> Novo Testamento</h2>
+        <hr>
+
+        <img src="leao_img.png" width="300px" height="300px" alt="">
+    </div>
+        <div class="game" onclick="loadGame('quiz1')">Quiz 1:<br> Novo Testamento</div>
+        <div class="game" onclick="loadGame('quiz2')">Quiz 2:<br> Novo Testamento</div>
+        <div class="game" onclick="loadGame('quiz3')">Quiz 3:<br> Novo Testamento</div>
+        <div class="game" onclick="loadGame('quiz4')">Quiz 4:<br> Novo Testamento</div>
+        <div class="game" onclick="loadGame('quiz5')">Quiz 5:<br> Novo Testamento</div>
+        <div class="game" onclick="loadGame('quiz6')">Quiz 6:<br> Novo Testamento</div>
+        <div class="game" onclick="loadGame('quiz7')">Quiz 7:<br> Novo Testamento</div>
+        <div class="game" onclick="loadGame('quiz8')">Quiz 8:<br> Novo Testamento</div>
+        <div class="game" onclick="loadGame('quiz9')">Quiz 9:<br> Novo Testamento</div>
+        <div class="game" onclick="loadGame('quiz10')">Quiz 10:<br> Novo Testamento</div>
+    </div>
+    
+    <div id="gameContent"></div>
+
+    <script>
+
+        
+         // Função para iniciar o jogo, ocultar a tela inicial e mostrar o menu de jogos
+         function startGame() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('gamesMenu').style.display = 'flex';
+        }
+        
+        function loadGame(gameId) {
+            let gameContent = document.getElementById('gameContent');
+            gameContent.innerHTML = ''; // Limpa o conteúdo anterior
+
+            // Oculta o menu de jogos ao selecionar um jogo
+            document.getElementById('gamesMenu').style.display = 'none';
+
+            if (gameId === 'quiz1') {
+                gameContent.innerHTML = `
+                    <h2>Quiz 1: Novo Testamento</h2>
+                    <div id="quiz-container"></div>
+                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                    
+                `;
+                startQuiz(questions1); // Inicia o primeiro quiz
+            } else if (gameId === 'quiz2') {
+                gameContent.innerHTML = `
+                    <h2>Quiz 2: Novo Testamento</h2>
+                    <div id="quiz-container"></div>
+                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                    
+                `;
+                startQuiz(questions2); // Inicia o segundo quiz
+            } else if (gameId === 'quiz3') {
+                gameContent.innerHTML = `
+                    <h2>Quiz 3: Novo Testamento</h2>
+                    <div id="quiz-container"></div>
+                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                   
+                `;
+                startQuiz(questions3); // Inicia o terceiro quiz
+            }
+
+         else if (gameId === 'quiz4') {
+                gameContent.innerHTML = `
+                    <h2>Quiz 4: Novo Testamento</h2>
+                    <div id="quiz-container"></div>
+                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                   
+                `;
+                startQuiz(questions4); // Inicia o terceiro quiz
+            }
+
+            else if (gameId === 'quiz5') {
+                gameContent.innerHTML = `
+                    <h2>Quiz 5: Novo Testamento</h2>
+                    <div id="quiz-container"></div>
+                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                   
+                `;
+                startQuiz(questions5); // Inicia o terceiro quiz
+            }
+
+            else if (gameId === 'quiz6') {
+                gameContent.innerHTML = `
+                    <h2>Quiz 6: Novo Testamento</h2>
+                    <div id="quiz-container"></div>
+                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                   
+                `;
+                startQuiz(questions6); // Inicia o terceiro quiz
+            }
+
+            else if (gameId === 'quiz7') {
+                gameContent.innerHTML = `
+                    <h2>Quiz 7: Novo Testamento</h2>
+                    <div id="quiz-container"></div>
+                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                   
+                `;
+                startQuiz(questions7); // Inicia o terceiro quiz
+            }
+
+            else if (gameId === 'quiz8') {
+                gameContent.innerHTML = `
+                    <h2>Quiz 8: Novo Testamento</h2>
+                    <div id="quiz-container"></div>
+                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                   
+                `;
+                startQuiz(questions8); // Inicia o terceiro quiz
+            }
+
+            else if (gameId === 'quiz9') {
+                gameContent.innerHTML = `
+                    <h2>Quiz 9: Novo Testamento</h2>
+                    <div id="quiz-container"></div>
+                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                   
+                `;
+                startQuiz(questions9); // Inicia o terceiro quiz
+            }
+
+            else if (gameId === 'quiz10') {
+                gameContent.innerHTML = `
+                    <h2>Quiz 10: Novo Testamento</h2>
+                    <div id="quiz-container"></div>
+                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                   
+                `;
+                startQuiz(questions10); // Inicia o terceiro quiz
+            }
+        }
+
+        let currentQuestionIndex = 0;
+        const userAnswers = [];
+
+        const questions1 = [
+        {
+    question: 'Qual é o primeiro livro do Novo Testamento?',
+    answers: [
+        { text: 'Mateus', correct: true },
+        { text: 'Marcos', correct: false },
+        { text: 'Lucas', correct: false },
+        { text: 'João', correct: false }
+    ]
+},
+{
+    question: 'Quem foi o autor do livro de Apocalipse?',
+    answers: [
+        { text: 'João', correct: true },
+        { text: 'Paulo', correct: false },
+        { text: 'Pedro', correct: false },
+        { text: 'Lucas', correct: false }
+    ]
+},
+{
+    question: 'Quantas cartas Paulo escreveu no Novo Testamento?',
+    answers: [
+        { text: '13', correct: true },
+        { text: '10', correct: false },
+        { text: '14', correct: false },
+        { text: '12', correct: false }
+    ]
+},
+{
+    question: 'Em qual livro está registrado o Sermão da Montanha?',
+    answers: [
+        { text: 'Mateus', correct: true },
+        { text: 'Lucas', correct: false },
+        { text: 'Marcos', correct: false },
+        { text: 'João', correct: false }
+    ]
+},
+{
+    question: 'Qual apóstolo negou Jesus três vezes?',
+    answers: [
+        { text: 'Pedro', correct: true },
+        { text: 'João', correct: false },
+        { text: 'Tiago', correct: false },
+        { text: 'André', correct: false }
+    ]
+},
+{
+    question: 'Quem batizou Jesus?',
+    answers: [
+        { text: 'João Batista', correct: true },
+        { text: 'Pedro', correct: false },
+        { text: 'Paulo', correct: false },
+        { text: 'Tiago', correct: false }
+    ]
+},
+{
+    question: 'Em que cidade Jesus nasceu?',
+    answers: [
+        { text: 'Belém', correct: true },
+        { text: 'Jerusalém', correct: false },
+        { text: 'Nazaré', correct: false },
+        { text: 'Cafarnaum', correct: false }
+    ]
+},
+{
+    question: 'Qual foi o primeiro milagre de Jesus?',
+    answers: [
+        { text: 'Transformar água em vinho', correct: true },
+        { text: 'Curar um cego', correct: false },
+        { text: 'Multiplicação dos pães', correct: false },
+        { text: 'Andar sobre as águas', correct: false }
+    ]
+},
+{
+    question: 'Quantos capítulos tem o livro de Mateus?',
+    answers: [
+        { text: '28', correct: true },
+        { text: '24', correct: false },
+        { text: '21', correct: false },
+        { text: '26', correct: false }
+    ]
+},
+{
+    question: 'Quem escreveu o livro de Atos dos Apóstolos?',
+    answers: [
+        { text: 'Lucas', correct: true },
+        { text: 'Paulo', correct: false },
+        { text: 'Pedro', correct: false },
+        { text: 'João', correct: false }
+    ]
+},
+{
+    question: 'Qual é o último livro do Novo Testamento?',
+    answers: [
+        { text: 'Apocalipse', correct: true },
+        { text: 'Judas', correct: false },
+        { text: '1 João', correct: false },
+        { text: 'Hebreus', correct: false }
+    ]
+},
+{
+    question: 'Quem era o apóstolo chamado de "o amado"?',
+    answers: [
+        { text: 'João', correct: true },
+        { text: 'Pedro', correct: false },
+        { text: 'Tiago', correct: false },
+        { text: 'André', correct: false }
+    ]
+},
+{
+    question: 'Em que livro encontramos a frase "Deus é amor"?',
+    answers: [
+        { text: '1 João', correct: true },
+        { text: 'Efésios', correct: false },
+        { text: 'Romanos', correct: false },
+        { text: 'Filipenses', correct: false }
+    ]
+},
+{
+    question: 'Quem foi escolhido para substituir Judas Iscariotes como apóstolo?',
+    answers: [
+        { text: 'Matias', correct: true },
+        { text: 'Barnabé', correct: false },
+        { text: 'Timóteo', correct: false },
+        { text: 'Silas', correct: false }
+    ]
+},
+{
+    question: 'Em qual ilha João teve a visão do Apocalipse?',
+    answers: [
+        { text: 'Patmos', correct: true },
+        { text: 'Malta', correct: false },
+        { text: 'Chipre', correct: false },
+        { text: 'Creta', correct: false }
+    ]
+},
+{
+    question: 'Qual discípulo caminhou sobre as águas em direção a Jesus?',
+    answers: [
+        { text: 'Pedro', correct: true },
+        { text: 'João', correct: false },
+        { text: 'Tiago', correct: false },
+        { text: 'Tomé', correct: false }
+    ]
+},
+{
+    question: 'Qual era a profissão de Paulo antes de sua conversão?',
+    answers: [
+        { text: 'Fabricante de tendas', correct: true },
+        { text: 'Pescador', correct: false },
+        { text: 'Cobrador de impostos', correct: false },
+        { text: 'Carpinteiro', correct: false }
+    ]
+},
+{
+    question: 'Qual era o nome original de Paulo?',
+    answers: [
+        { text: 'Saulo', correct: true },
+        { text: 'Simão', correct: false },
+        { text: 'Barnabé', correct: false },
+        { text: 'Félix', correct: false }
+    ]
+},
+{
+    question: 'Quem era o governador romano que lavou as mãos antes da crucificação de Jesus?',
+    answers: [
+        { text: 'Pilatos', correct: true },
+        { text: 'Herodes', correct: false },
+        { text: 'Festo', correct: false },
+        { text: 'Caifás', correct: false }
+    ]
+},
+{
+    question: 'Quantos capítulos tem o livro de Apocalipse?',
+    answers: [
+        { text: '22', correct: true },
+        { text: '18', correct: false },
+        { text: '24', correct: false },
+        { text: '20', correct: false }
+    ]
+}
+            // Adicione mais perguntas aqui
+        ];
+
+        const questions2 = [
+        {
+    question: 'Qual apóstolo é conhecido por sua dúvida sobre a ressurreição de Jesus?',
+    answers: [
+        { text: 'Tomé', correct: true },
+        { text: 'Pedro', correct: false },
+        { text: 'Tiago', correct: false },
+        { text: 'Judas Tadeu', correct: false }
+    ]
+},
+{
+    question: 'Quem foi o primeiro mártir cristão?',
+    answers: [
+        { text: 'Estevão', correct: true },
+        { text: 'Tiago', correct: false },
+        { text: 'Pedro', correct: false },
+        { text: 'André', correct: false }
+    ]
+},
+{
+    question: 'Em que livro encontramos o "Fruto do Espírito"?',
+    answers: [
+        { text: 'Gálatas', correct: true },
+        { text: 'Efésios', correct: false },
+        { text: 'Filipenses', correct: false },
+        { text: 'Colossenses', correct: false }
+    ]
+},
+{
+    question: 'Quantos pães e peixes Jesus usou para alimentar 5.000 homens?',
+    answers: [
+        { text: '5 pães e 2 peixes', correct: true },
+        { text: '7 pães e 3 peixes', correct: false },
+        { text: '3 pães e 5 peixes', correct: false },
+        { text: '4 pães e 4 peixes', correct: false }
+    ]
+},
+{
+    question: 'Qual livro começa com "No princípio era o Verbo"?',
+    answers: [
+        { text: 'João', correct: true },
+        { text: 'Mateus', correct: false },
+        { text: 'Lucas', correct: false },
+        { text: 'Marcos', correct: false }
+    ]
+},
+{
+    question: 'Em que cidade Paulo foi preso pela primeira vez?',
+    answers: [
+        { text: 'Filipos', correct: true },
+        { text: 'Jerusalém', correct: false },
+        { text: 'Éfeso', correct: false },
+        { text: 'Corinto', correct: false }
+    ]
+},
+{
+    question: 'Quantas vezes Paulo foi chicoteado pelos judeus com 39 açoites?',
+    answers: [
+        { text: '5 vezes', correct: true },
+        { text: '3 vezes', correct: false },
+        { text: '7 vezes', correct: false },
+        { text: '2 vezes', correct: false }
+    ]
+},
+{
+    question: 'Quem é conhecido como o "apóstolo dos gentios"?',
+    answers: [
+        { text: 'Paulo', correct: true },
+        { text: 'Pedro', correct: false },
+        { text: 'Tiago', correct: false },
+        { text: 'André', correct: false }
+    ]
+},
+{
+    question: 'Em que livro se encontra a Grande Comissão?',
+    answers: [
+        { text: 'Mateus', correct: true },
+        { text: 'Marcos', correct: false },
+        { text: 'Lucas', correct: false },
+        { text: 'Atos', correct: false }
+    ]
+},
+{
+    question: 'Quem foi a primeira pessoa a ver Jesus após sua ressurreição?',
+    answers: [
+        { text: 'Maria Madalena', correct: true },
+        { text: 'Pedro', correct: false },
+        { text: 'João', correct: false },
+        { text: 'Tomé', correct: false }
+    ]
+},
+{
+    question: 'Qual apóstolo foi mordido por uma cobra e não sofreu mal algum?',
+    answers: [
+        { text: 'Paulo', correct: true },
+        { text: 'Pedro', correct: false },
+        { text: 'João', correct: false },
+        { text: 'Tiago', correct: false }
+    ]
+},
+{
+    question: 'Quem era o companheiro de Paulo em sua primeira viagem missionária?',
+    answers: [
+        { text: 'Barnabé', correct: true },
+        { text: 'Timóteo', correct: false },
+        { text: 'Silas', correct: false },
+        { text: 'Lucas', correct: false }
+    ]
+},
+{
+    question: 'Quantas igrejas são mencionadas no início de Apocalipse?',
+    answers: [
+        { text: '7', correct: true },
+        { text: '5', correct: false },
+        { text: '12', correct: false },
+        { text: '10', correct: false }
+    ]
+},
+{
+    question: 'Qual foi o destino final de Paulo de acordo com o livro de Atos?',
+    answers: [
+        { text: 'Roma', correct: true },
+        { text: 'Corinto', correct: false },
+        { text: 'Éfeso', correct: false },
+        { text: 'Jerusalém', correct: false }
+    ]
+},
+{
+    question: 'Quem escreveu as três cartas conhecidas como 1 João, 2 João e 3 João?',
+    answers: [
+        { text: 'João', correct: true },
+        { text: 'Paulo', correct: false },
+        { text: 'Pedro', correct: false },
+        { text: 'Tiago', correct: false }
+    ]
+},
+{
+    question: 'Em que livro Paulo fala sobre a "armadura de Deus"?',
+    answers: [
+        { text: 'Efésios', correct: true },
+        { text: 'Filipenses', correct: false },
+        { text: 'Colossenses', correct: false },
+        { text: '1 Coríntios', correct: false }
+    ]
+},
+{
+    question: 'Qual evangelho é conhecido por sua ênfase nos milagres de Jesus?',
+    answers: [
+        { text: 'Marcos', correct: true },
+        { text: 'Mateus', correct: false },
+        { text: 'Lucas', correct: false },
+        { text: 'João', correct: false }
+    ]
+},
+{
+    question: 'Em que livro Paulo aconselha sobre o amor ao próximo?',
+    answers: [
+        { text: '1 Coríntios', correct: true },
+        { text: 'Gálatas', correct: false },
+        { text: 'Romanos', correct: false },
+        { text: 'Efésios', correct: false }
+    ]
+},
+{
+    question: 'Quem foi o destinatário das cartas 1 e 2 Timóteo?',
+    answers: [
+        { text: 'Timóteo', correct: true },
+        { text: 'Tito', correct: false },
+        { text: 'Silas', correct: false },
+        { text: 'Festo', correct: false }
+    ]
+},
+{
+    question: 'Em qual livro Jesus diz: "Eu sou a videira, e vós os ramos"?',
+    answers: [
+        { text: 'João', correct: true },
+        { text: 'Lucas', correct: false },
+        { text: 'Mateus', correct: false },
+        { text: 'Marcos', correct: false }
+    ]
+}
+        
+            // Adicione mais perguntas aqui
+        ];
+
+        const questions3 = [
+        {
+    question: 'Em que cidade Jesus realizou seu primeiro milagre?',
+    answers: [
+        { text: 'Caná', correct: true },
+        { text: 'Belém', correct: false },
+        { text: 'Nazaré', correct: false },
+        { text: 'Jerusalém', correct: false }
+    ]
+},
+{
+    question: 'Quem foi o primeiro discípulo chamado por Jesus?',
+    answers: [
+        { text: 'André', correct: true },
+        { text: 'Pedro', correct: false },
+        { text: 'João', correct: false },
+        { text: 'Tiago', correct: false }
+    ]
+},
+{
+    question: 'Qual evangelho destaca as parábolas de Jesus?',
+    answers: [
+        { text: 'Lucas', correct: true },
+        { text: 'Mateus', correct: false },
+        { text: 'João', correct: false },
+        { text: 'Marcos', correct: false }
+    ]
+},
+{
+    question: 'Quem foi o cobrador de impostos que se tornou discípulo de Jesus?',
+    answers: [
+        { text: 'Mateus', correct: true },
+        { text: 'Zaqueu', correct: false },
+        { text: 'Simão', correct: false },
+        { text: 'Felipe', correct: false }
+    ]
+},
+{
+    question: 'Quem levou a cruz de Jesus no caminho para o Calvário?',
+    answers: [
+        { text: 'Simão de Cirene', correct: true },
+        { text: 'Pedro', correct: false },
+        { text: 'João', correct: false },
+        { text: 'Tiago', correct: false }
+    ]
+},
+{
+    question: 'Qual livro do Novo Testamento começa com uma genealogia de Jesus?',
+    answers: [
+        { text: 'Mateus', correct: true },
+        { text: 'Lucas', correct: false },
+        { text: 'Marcos', correct: false },
+        { text: 'João', correct: false }
+    ]
+},
+{
+    question: 'Qual evangelho foi escrito por um médico?',
+    answers: [
+        { text: 'Lucas', correct: true },
+        { text: 'Mateus', correct: false },
+        { text: 'Marcos', correct: false },
+        { text: 'João', correct: false }
+    ]
+},
+{
+    question: 'Quem teve a visão de um grande lençol descendo do céu com animais?',
+    answers: [
+        { text: 'Pedro', correct: true },
+        { text: 'Paulo', correct: false },
+        { text: 'João', correct: false },
+        { text: 'Tiago', correct: false }
+    ]
+},
+{
+    question: 'Qual é o menor livro do Novo Testamento?',
+    answers: [
+        { text: '2 João', correct: true },
+        { text: 'Judas', correct: false },
+        { text: '3 João', correct: false },
+        { text: 'Filipenses', correct: false }
+    ]
+},
+{
+    question: 'Qual apóstolo é considerado a "pedra" da igreja?',
+    answers: [
+        { text: 'Pedro', correct: true },
+        { text: 'Paulo', correct: false },
+        { text: 'João', correct: false },
+        { text: 'Tiago', correct: false }
+    ]
+},
+{
+    question: 'Quem escreveu a carta aos Hebreus?',
+    answers: [
+        { text: 'Autor desconhecido', correct: true },
+        { text: 'Paulo', correct: false },
+        { text: 'Pedro', correct: false },
+        { text: 'Lucas', correct: false }
+    ]
+},
+{
+    question: 'Quantos capítulos tem o livro de Romanos?',
+    answers: [
+        { text: '16', correct: true },
+        { text: '12', correct: false },
+        { text: '14', correct: false },
+        { text: '18', correct: false }
+    ]
+}
+       
+            // Adicione mais perguntas aqui
+        ];
+
+        const questions4 = [
+       
+        
+            // Adicione mais perguntas aqui
+        ];
+
+        const questions5 = [
+       
+        
+            // Adicione mais perguntas aqui
+        ];
+
+        const questions6 = [
+       
+        
+            // Adicione mais perguntas aqui
+        ];
+
+        const questions8 = [
+       
+            // Adicione mais perguntas aqui
+        ];
+
+        const questions9 = [
+       
+            // Adicione mais perguntas aqui
+        ];
+
+        const questions10 = [
+       
+            // Adicione mais perguntas aqui
+        ];
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function startQuiz(questions) {
+            currentQuestionIndex = 0;
+            shuffleArray(questions); // Embaralha as perguntas
+            questions.forEach(q => shuffleArray(q.answers)); // Embaralha as respostas de cada pergunta
+            userAnswers.length = 0;
+            showQuestion(questions);
+        }
+
+        function showQuestion(questions) {
+            const questionObj = questions[currentQuestionIndex];
+            const quizContainer = document.getElementById('quiz-container');
+            quizContainer.innerHTML = `
+                <div class="question">${questionObj.question}</div>
+                ${questionObj.answers.map((answer, index) => `
+                    <div class="answer" onclick="checkAnswer(this, ${answer.correct}, '${answer.text}')">${answer.text}</div>
+                `).join('')}
+            `;
+            document.querySelector('.next-button').disabled = true;
+        }
+
+        function checkAnswer(element, correct, answerText) {
+            const answers = document.querySelectorAll('.answer');
+            answers.forEach(answer => answer.style.pointerEvents = 'none'); // Desabilita cliques
+            element.classList.add(correct ? 'correct' : 'incorrect');
+            userAnswers.push({ correct, answerText }); // Armazena a resposta
+            document.querySelector('.next-button').disabled = false; // Habilita botão
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions1.length) {
+                showQuestion(questions1);
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            const quizContainer = document.getElementById('quiz-container');
+            const correctAnswersCount = userAnswers.filter(answer => answer.correct).length;
+            quizContainer.innerHTML = 
+                `<h2>Resultados</h2>
+                <p>Você acertou ${correctAnswersCount} de ${userAnswers.length} perguntas!</p>
+                <ul>` +
+                userAnswers.map((answer, index) => 
+                    `<li>${index + 1}: ${answer.answerText} - ${answer.correct ? 'Correto' : 'Incorreto'}</li>`
+                ).join('') +
+                `</ul>
+                <button class="back-button" onclick="backToMenu()">Voltar ao Menu</button>`;
+
+            // Verificar se todas as respostas estão corretas e jogar confete
+            if (correctAnswersCount === userAnswers.length) {
+                launchConfetti();
+            }
+        }
+
+        function launchConfetti() {
+            confetti({
+                particleCount: 200,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+
+        function backToMenu() {
+            document.getElementById('gamesMenu').style.display = 'flex';
+            document.getElementById('gameContent').innerHTML = '';
+        }
+    </script>
+</body>
+</html>
