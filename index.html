@@ -313,186 +313,141 @@
         const userAnswers = [];
 
         const questions1 = [
-        {
-    question: 'Qual é o primeiro livro do Novo Testamento?',
-    answers: [
-        { text: 'Mateus', correct: true },
-        { text: 'Marcos', correct: false },
-        { text: 'Lucas', correct: false },
-        { text: 'João', correct: false }
-    ]
-},
-{
-    question: 'Quem foi o autor do livro de Apocalipse?',
-    answers: [
-        { text: 'João', correct: true },
-        { text: 'Paulo', correct: false },
-        { text: 'Pedro', correct: false },
-        { text: 'Lucas', correct: false }
-    ]
-},
-{
-    question: 'Quantas cartas Paulo escreveu no Novo Testamento?',
-    answers: [
-        { text: '13', correct: true },
-        { text: '10', correct: false },
-        { text: '14', correct: false },
-        { text: '12', correct: false }
-    ]
-},
-{
-    question: 'Em qual livro está registrado o Sermão da Montanha?',
-    answers: [
-        { text: 'Mateus', correct: true },
-        { text: 'Lucas', correct: false },
-        { text: 'Marcos', correct: false },
-        { text: 'João', correct: false }
-    ]
-},
-{
-    question: 'Qual apóstolo negou Jesus três vezes?',
-    answers: [
-        { text: 'Pedro', correct: true },
-        { text: 'João', correct: false },
-        { text: 'Tiago', correct: false },
-        { text: 'André', correct: false }
-    ]
-},
-{
-    question: 'Quem batizou Jesus?',
-    answers: [
-        { text: 'João Batista', correct: true },
-        { text: 'Pedro', correct: false },
-        { text: 'Paulo', correct: false },
-        { text: 'Tiago', correct: false }
-    ]
-},
-{
-    question: 'Em que cidade Jesus nasceu?',
-    answers: [
-        { text: 'Belém', correct: true },
-        { text: 'Jerusalém', correct: false },
-        { text: 'Nazaré', correct: false },
-        { text: 'Cafarnaum', correct: false }
-    ]
-},
-{
-    question: 'Qual foi o primeiro milagre de Jesus?',
-    answers: [
-        { text: 'Transformar água em vinho', correct: true },
-        { text: 'Curar um cego', correct: false },
-        { text: 'Multiplicação dos pães', correct: false },
-        { text: 'Andar sobre as águas', correct: false }
-    ]
-},
-{
-    question: 'Quantos capítulos tem o livro de Mateus?',
-    answers: [
-        { text: '28', correct: true },
-        { text: '24', correct: false },
-        { text: '21', correct: false },
-        { text: '26', correct: false }
-    ]
-},
-{
-    question: 'Quem escreveu o livro de Atos dos Apóstolos?',
-    answers: [
-        { text: 'Lucas', correct: true },
-        { text: 'Paulo', correct: false },
-        { text: 'Pedro', correct: false },
-        { text: 'João', correct: false }
-    ]
-},
-{
-    question: 'Qual é o último livro do Novo Testamento?',
-    answers: [
-        { text: 'Apocalipse', correct: true },
-        { text: 'Judas', correct: false },
-        { text: '1 João', correct: false },
-        { text: 'Hebreus', correct: false }
-    ]
-},
-{
-    question: 'Quem era o apóstolo chamado de "o amado"?',
-    answers: [
-        { text: 'João', correct: true },
-        { text: 'Pedro', correct: false },
-        { text: 'Tiago', correct: false },
-        { text: 'André', correct: false }
-    ]
-},
-{
-    question: 'Em que livro encontramos a frase "Deus é amor"?',
-    answers: [
-        { text: '1 João', correct: true },
-        { text: 'Efésios', correct: false },
-        { text: 'Romanos', correct: false },
-        { text: 'Filipenses', correct: false }
-    ]
-},
-{
-    question: 'Quem foi escolhido para substituir Judas Iscariotes como apóstolo?',
-    answers: [
-        { text: 'Matias', correct: true },
-        { text: 'Barnabé', correct: false },
-        { text: 'Timóteo', correct: false },
-        { text: 'Silas', correct: false }
-    ]
-},
-{
-    question: 'Em qual ilha João teve a visão do Apocalipse?',
-    answers: [
-        { text: 'Patmos', correct: true },
-        { text: 'Malta', correct: false },
-        { text: 'Chipre', correct: false },
-        { text: 'Creta', correct: false }
-    ]
-},
-{
-    question: 'Qual discípulo caminhou sobre as águas em direção a Jesus?',
-    answers: [
-        { text: 'Pedro', correct: true },
-        { text: 'João', correct: false },
-        { text: 'Tiago', correct: false },
-        { text: 'Tomé', correct: false }
-    ]
-},
-{
-    question: 'Qual era a profissão de Paulo antes de sua conversão?',
-    answers: [
-        { text: 'Fabricante de tendas', correct: true },
-        { text: 'Pescador', correct: false },
-        { text: 'Cobrador de impostos', correct: false },
-        { text: 'Carpinteiro', correct: false }
-    ]
-},
-{
-    question: 'Qual era o nome original de Paulo?',
-    answers: [
-        { text: 'Saulo', correct: true },
-        { text: 'Simão', correct: false },
-        { text: 'Barnabé', correct: false },
-        { text: 'Félix', correct: false }
-    ]
-},
-{
-    question: 'Quem era o governador romano que lavou as mãos antes da crucificação de Jesus?',
-    answers: [
-        { text: 'Pilatos', correct: true },
-        { text: 'Herodes', correct: false },
-        { text: 'Festo', correct: false },
-        { text: 'Caifás', correct: false }
-    ]
-},
-{
-    question: 'Quantos capítulos tem o livro de Apocalipse?',
-    answers: [
-        { text: '22', correct: true },
-        { text: '18', correct: false },
-        { text: '24', correct: false },
-        { text: '20', correct: false }
-    ]
-}
+       {
+        question: 'Qual foi o significado da visão de Ezequiel sobre o vale de ossos secos?',
+        answers: [
+            { text: 'A restauração de Israel', correct: true },
+            { text: 'A queda de Babilônia', correct: false },
+            { text: 'O julgamento final', correct: false },
+            { text: 'A destruição de Jerusalém', correct: false }
+        ]
+    },
+    {
+        question: 'Qual era o propósito das trombetas no livro de Apocalipse?',
+        answers: [
+            { text: 'Anunciar julgamentos sobre a Terra', correct: true },
+            { text: 'Celebrar a vitória dos santos', correct: false },
+            { text: 'Convocar as tribos de Israel', correct: false },
+            { text: 'Marcar o início de festivais', correct: false }
+        ]
+    },
+    {
+        question: 'Qual foi a profecia de Daniel sobre as setenta semanas?',
+        answers: [
+            { text: 'Uma previsão da vinda do Messias e a redenção', correct: true },
+            { text: 'A destruição de Jerusalém pelos romanos', correct: false },
+            { text: 'O cativeiro de Israel na Babilônia', correct: false },
+            { text: 'O fim dos tempos', correct: false }
+        ]
+    },
+    {
+        question: 'Quem era Melquisedeque, mencionado em Hebreus como "sacerdote do Deus Altíssimo"?',
+        answers: [
+            { text: 'Rei de Salém e uma figura de Cristo', correct: true },
+            { text: 'Um profeta da tribo de Levi', correct: false },
+            { text: 'Sacerdote no templo de Jerusalém', correct: false },
+            { text: 'Um líder dos filisteus', correct: false }
+        ]
+    },
+    {
+        question: 'Por que Deus pediu a Abraão que sacrificasse seu filho Isaque?',
+        answers: [
+            { text: 'Para testar a fé de Abraão', correct: true },
+            { text: 'Para cumprir uma profecia', correct: false },
+            { text: 'Como um sinal para as nações vizinhas', correct: false },
+            { text: 'Para substituir o sacrifício de animais', correct: false }
+        ]
+    },
+    {
+        question: 'Qual foi o significado da cortina do templo rasgar-se de alto a baixo na morte de Jesus?',
+        answers: [
+            { text: 'O acesso direto a Deus foi restaurado', correct: true },
+            { text: 'O templo foi destruído pelo terremoto', correct: false },
+            { text: 'A morte de Jesus causou confusão entre os judeus', correct: false },
+            { text: 'Foi o fim dos sacrifícios de animais', correct: false }
+        ]
+    },
+    {
+        question: 'Quem foram os dois homens que apareceram com Jesus na transfiguração?',
+        answers: [
+            { text: 'Moisés e Elias', correct: true },
+            { text: 'Abraão e Isaque', correct: false },
+            { text: 'Davi e Salomão', correct: false },
+            { text: 'Josué e Calebe', correct: false }
+        ]
+    },
+    {
+        question: 'Qual foi o significado da parábola do bom samaritano contada por Jesus?',
+        answers: [
+            { text: 'Amar o próximo, independentemente de raça ou religião', correct: true },
+            { text: 'Reforçar a importância da caridade entre os judeus', correct: false },
+            { text: 'Criticar os líderes religiosos de sua época', correct: false },
+            { text: 'Mostrar a superioridade moral dos samaritanos', correct: false }
+        ]
+    },
+    {
+        question: 'O que representavam as sete igrejas da Ásia no livro de Apocalipse?',
+        answers: [
+            { text: 'Sete tipos de condições espirituais das igrejas ao longo do tempo', correct: true },
+            { text: 'Sete fases do fim dos tempos', correct: false },
+            { text: 'Sete profetas do Antigo Testamento', correct: false },
+            { text: 'Sete lugares sagrados para os cristãos', correct: false }
+        ]
+    },
+    {
+        question: 'Qual foi a missão dada a Jonas por Deus, e por que ele a evitou?',
+        answers: [
+            { text: 'Pregar o arrependimento em Nínive, uma cidade inimiga de Israel', correct: true },
+            { text: 'Proclamar o juízo sobre Babilônia', correct: false },
+            { text: 'Advertir os israelitas sobre a idolatria', correct: false },
+            { text: 'Confrontar o rei de Israel', correct: false }
+        ]
+    },
+    {
+        question: 'Qual é a promessa do "novo pacto" mencionada no livro de Jeremias?',
+        answers: [
+            { text: 'Deus escreveria sua lei nos corações das pessoas', correct: true },
+            { text: 'O templo seria reconstruído em Jerusalém', correct: false },
+            { text: 'O Messias restauraria o reino de Israel', correct: false },
+            { text: 'Os inimigos de Israel seriam derrotados', correct: false }
+        ]
+    },
+    {
+        question: 'Qual foi a mensagem principal de Paulo aos Gálatas sobre a Lei e a Graça?',
+        answers: [
+            { text: 'A salvação é pela fé em Cristo, não pelas obras da Lei', correct: true },
+            { text: 'Os gentios deviam seguir a Lei judaica para serem salvos', correct: false },
+            { text: 'Os judeus tinham prioridade na salvação', correct: false },
+            { text: 'O cumprimento da Lei leva à perfeição', correct: false }
+        ]
+    },
+    {
+        question: 'Quem foi a primeira pessoa a ver Jesus ressuscitado, segundo os Evangelhos?',
+        answers: [
+            { text: 'Maria Madalena', correct: true },
+            { text: 'Pedro', correct: false },
+            { text: 'João', correct: false },
+            { text: 'Tomé', correct: false }
+        ]
+    },
+    {
+        question: 'O que representava a visão do profeta Isaías sobre o "cordeiro que é levado ao matadouro"?',
+        answers: [
+            { text: 'Uma profecia sobre o sofrimento de Jesus como sacrifício pelos pecados', correct: true },
+            { text: 'A perseguição do povo de Israel', correct: false },
+            { text: 'O sofrimento dos profetas', correct: false },
+            { text: 'A destruição de Jerusalém', correct: false }
+        ]
+    },
+    {
+        question: 'Qual foi a acusação falsa feita contra Estevão antes de seu martírio?',
+        answers: [
+            { text: 'Blasfêmia contra Deus e Moisés', correct: true },
+            { text: 'Roubo do tesouro do templo', correct: false },
+            { text: 'Conspiração contra o império romano', correct: false },
+            { text: 'Falsificação de escritos sagrados', correct: false }
+        ]
+    }
             // Adicione mais perguntas aqui
         ];
 
