@@ -216,7 +216,7 @@
                 gameContent.innerHTML = `
                     <h2>Quiz 1: Novo Testamento</h2>
                     <div id="quiz-container"></div>
-                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                    <button class="next-button" onclick="nextQuestion(questions1)" disabled>Próxima Pergunta</button>
                     
                 `;
                 startQuiz(questions1); // Inicia o primeiro quiz
@@ -224,7 +224,7 @@
                 gameContent.innerHTML = `
                     <h2>Quiz 2: Novo Testamento</h2>
                     <div id="quiz-container"></div>
-                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                    <button class="next-button" onclick="nextQuestion(questions2)" disabled>Próxima Pergunta</button>
                     
                 `;
                 startQuiz(questions2); // Inicia o segundo quiz
@@ -232,7 +232,7 @@
                 gameContent.innerHTML = `
                     <h2>Quiz 3: Novo Testamento</h2>
                     <div id="quiz-container"></div>
-                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                    <button class="next-button" onclick="nextQuestion(questions3)" disabled>Próxima Pergunta</button>
                    
                 `;
                 startQuiz(questions3); // Inicia o terceiro quiz
@@ -242,7 +242,7 @@
                 gameContent.innerHTML = `
                     <h2>Quiz 4: Novo Testamento</h2>
                     <div id="quiz-container"></div>
-                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                    <button class="next-button" onclick="nextQuestion(questions4)" disabled>Próxima Pergunta</button>
                    
                 `;
                 startQuiz(questions4); // Inicia o terceiro quiz
@@ -252,7 +252,7 @@
                 gameContent.innerHTML = `
                     <h2>Quiz 5: Novo Testamento</h2>
                     <div id="quiz-container"></div>
-                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                    <button class="next-button" onclick="nextQuestion(questions5)" disabled>Próxima Pergunta</button>
                    
                 `;
                 startQuiz(questions5); // Inicia o terceiro quiz
@@ -262,7 +262,7 @@
                 gameContent.innerHTML = `
                     <h2>Quiz 6: Novo Testamento</h2>
                     <div id="quiz-container"></div>
-                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                    <button class="next-button" onclick="nextQuestion(questions6)" disabled>Próxima Pergunta</button>
                    
                 `;
                 startQuiz(questions6); // Inicia o terceiro quiz
@@ -272,7 +272,7 @@
                 gameContent.innerHTML = `
                     <h2>Quiz 7: Novo Testamento</h2>
                     <div id="quiz-container"></div>
-                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                    <button class="next-button" onclick="nextQuestion(questions7)" disabled>Próxima Pergunta</button>
                    
                 `;
                 startQuiz(questions7); // Inicia o terceiro quiz
@@ -282,7 +282,7 @@
                 gameContent.innerHTML = `
                     <h2>Quiz 8: Novo Testamento</h2>
                     <div id="quiz-container"></div>
-                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                    <button class="next-button" onclick="nextQuestion(questions8)" disabled>Próxima Pergunta</button>
                    
                 `;
                 startQuiz(questions8); // Inicia o terceiro quiz
@@ -292,7 +292,7 @@
                 gameContent.innerHTML = `
                     <h2>Quiz 9: Novo Testamento</h2>
                     <div id="quiz-container"></div>
-                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                    <button class="next-button" onclick="nextQuestion(questions9)" disabled>Próxima Pergunta</button>
                    
                 `;
                 startQuiz(questions9); // Inicia o terceiro quiz
@@ -302,7 +302,7 @@
                 gameContent.innerHTML = `
                     <h2>Quiz 10: Novo Testamento</h2>
                     <div id="quiz-container"></div>
-                    <button class="next-button" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+                    <button class="next-button" onclick="nextQuestion(questions10)" disabled>Próxima Pergunta</button>
                    
                 `;
                 startQuiz(questions10); // Inicia o terceiro quiz
@@ -798,47 +798,56 @@
             showQuestion(questions);
         }
 
-        function showQuestion(questions) {
-            const questionObj = questions[currentQuestionIndex];
-            const quizContainer = document.getElementById('quiz-container');
-            quizContainer.innerHTML = `
-                <div class="question">${questionObj.question}</div>
-                ${questionObj.answers.map((answer, index) => `
-                    <div class="answer" onclick="checkAnswer(this, ${answer.correct}, '${answer.text}')">${answer.text}</div>
-                `).join('')}
-            `;
-            document.querySelector('.next-button').disabled = true;
-        }
+        function startQuiz(questions) {
+    currentQuestionIndex = 0;
+    shuffleArray(questions); // Embaralha as perguntas do quiz atual
+    questions.forEach(q => shuffleArray(q.answers)); // Embaralha as respostas de cada pergunta
+    userAnswers.length = 0;
+    showQuestion(questions);
+}
 
-        function checkAnswer(element, correct, answerText) {
-            const answers = document.querySelectorAll('.answer');
-            answers.forEach(answer => answer.style.pointerEvents = 'none'); // Desabilita cliques
-            element.classList.add(correct ? 'correct' : 'incorrect');
-            userAnswers.push({ correct, answerText }); // Armazena a resposta
-            document.querySelector('.next-button').disabled = false; // Habilita botão
-        }
+function showQuestion(questions) {
+    const questionObj = questions[currentQuestionIndex];
+    const quizContainer = document.getElementById('quiz-container');
+    quizContainer.innerHTML = `
+        <div class="question">${questionObj.question}</div>
+        ${questionObj.answers.map((answer, index) => `
+            <div class="answer" onclick="checkAnswer(this, ${answer.correct}, '${answer.text}')">${answer.text}</div>
+        `).join('')}
+    `;
+    document.querySelector('.next-button').disabled = true;
+}
 
-        function nextQuestion() {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < questions1.length) {
-                showQuestion(questions1);
-            } else {
-                showResults();
-            }
-        }
+function checkAnswer(element, correct, answerText) {
+    const answers = document.querySelectorAll('.answer');
+    answers.forEach(answer => answer.style.pointerEvents = 'none'); // Desabilita cliques
+    element.classList.add(correct ? 'correct' : 'incorrect');
+    userAnswers.push({ correct, answerText }); // Armazena a resposta
+    document.querySelector('.next-button').disabled = false; // Habilita botão
+}
 
-        function showResults() {
-            const quizContainer = document.getElementById('quiz-container');
-            const correctAnswersCount = userAnswers.filter(answer => answer.correct).length;
-            quizContainer.innerHTML = 
-                `<h2>Resultados</h2>
-                <p>Você acertou ${correctAnswersCount} de ${userAnswers.length} perguntas!</p>
-                <ul>` +
-                userAnswers.map((answer, index) => 
-                    `<li>${index + 1}: ${answer.answerText} - ${answer.correct ? 'Correto' : 'Incorreto'}</li>`
-                ).join('') +
-                `</ul>
-                <button class="back-button" onclick="backToMenu()">Voltar ao Menu</button>`;
+function nextQuestion(questions) {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+        showQuestion(questions);
+    } else {
+        showResults();
+    }
+}
+
+function showResults() {
+    const quizContainer = document.getElementById('quiz-container');
+    const correctAnswersCount = userAnswers.filter(answer => answer.correct).length;
+    quizContainer.innerHTML = 
+        `<h2>Resultados</h2>
+        <p>Você acertou ${correctAnswersCount} de ${userAnswers.length} perguntas!</p>
+        <ul>` +
+        userAnswers.map((answer, index) => `
+            <li>${index + 1}. ${answer.answerText} - ${answer.correct ? "Correto" : "Incorreto"}</li>
+        `).join('') +
+        `</ul>
+        <button class="back-button" onclick="backToMenu()">Voltar ao Menu</button>`;
+
 
             // Verificar se todas as respostas estão corretas e jogar confete
             if (correctAnswersCount === userAnswers.length) {
